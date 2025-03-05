@@ -1,0 +1,2783 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("The Vampire Legacies | By thehunterknightofhell", "DarkTheme")
+
+-- Sounds
+local tap = Instance.new("Sound")
+tap.Name = "Sound"
+tap.SoundId = "rbxassetid://3333976425"
+tap.Volume = 3
+tap.Looped = false
+tap.Archivable = false
+tap.Parent = game.Workspace
+
+-- Services
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalPlayer = Players.LocalPlayer
+
+-- Utility function to find the nearest player
+local function findNearestPlayer()
+    local minDist = math.huge
+    local nearestPlayer = nil
+    local myPos = LocalPlayer.Character and LocalPlayer.Character.PrimaryPart and LocalPlayer.Character.PrimaryPart.Position
+    if not myPos then return nil end
+
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer then
+            local theirPos = player.Character and player.Character.PrimaryPart and player.Character.PrimaryPart.Position
+            if theirPos then
+                local dist = (theirPos - myPos).magnitude
+                if dist < minDist then
+                    minDist = dist
+                    nearestPlayer = player
+                end
+            end
+        end
+    end
+
+    return nearestPlayer
+end
+
+local keybindsEnabled = {
+    ictus = false,
+    invisique = false,
+    incendia = false,
+    motus = false,
+    menedekQualSurenta = false,
+    ossox = false,
+    erroxFemus = false,
+    delfanEotenCor = false,
+    phasmatosMotusIncendiamos = false,
+    poenaDoloris = false,
+    immobilus = false,
+    adSomnum = false,
+    silencio = false,
+    visSeraPortus = false,
+    ahShaLana = false,
+    venenumCorpus = false,
+    corpusExoquator = false,
+    ferveretSanguis = false,
+    novisImmortalis = false,
+    ventus = false,
+    lecutioMaxima = false,
+    autem = false,
+    ignisUbique = false,
+    ascendo = false,
+    postTenebrasSperoLucem = false,
+    stranguloVentus = false,
+}
+
+-- Function to bind a key to a spell
+local function bindKeyToSpell(spell, keyCode, action)
+    UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+        if input.KeyCode == keyCode and not gameProcessedEvent and keybindsEnabled[spell] then
+            action()
+        end
+    end)
+end
+
+-- Utility function for aimbot targeting
+local function aimbotTarget()
+    local targetPlayer = findNearestPlayer()
+    if targetPlayer then
+        return targetPlayer.Character
+    end
+    return nil
+end
+
+-- Define actions for each spell
+local actions = {
+    ictus = function()
+        local target = aimbotTarget()
+        if target then
+            local args = {
+                [1] = {["Incant"] = "ictus", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor")
+        end
+    end,
+    invisique = function()
+        local args = {[1] = {["Incant"] = "invisique"}}
+        ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+        print("Spell activated")
+    end,
+    incendia = function()
+        local target = aimbotTarget()
+        if target and math.random() <= 0.8 then
+            local args = {
+                [1] = {["Incant"] = "incendia", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Incendia spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor or aimbot chance failed")
+        end
+    end,
+    motus = function()
+        local args = {[1] = {["Incant"] = "motus"}}
+        ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+        print("Motus spell activated")
+    end,
+    menedekQualSurenta = function()
+        local args = {[1] = {["Incant"] = "menedek qual surenta"}}
+        ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+        print("Menedek Qual Surenta spell activated")
+    end,
+    ossox = function()
+        local target = aimbotTarget()
+        if target then
+            local args = {
+                [1] = {["Incant"] = "ossox", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Ossox spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor")
+        end
+    end,
+    erroxFemus = function()
+        local target = aimbotTarget()
+        if target and math.random() <= 0.8 then
+            local args = {
+                [1] = {["Incant"] = "errox femus", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Errox Femus spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor or aimbot chance failed")
+        end
+    end,
+    delfanEotenCor = function()
+        local target = aimbotTarget()
+        if target and math.random() <= 0.8 then
+            local args = {
+                [1] = {["Incant"] = "delfan eoten cor", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Delfan Eoten Cor spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor or aimbot chance failed")
+        end
+    end,
+    phasmatosMotusIncendiamos = function()
+        local target = aimbotTarget()
+        if target and math.random() <= 0.8 then
+            local args = {
+                [1] = {["Incant"] = "phasmatos motus incendiamos", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Phasmatos Motus Incendiamos spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor or aimbot chance failed")
+        end
+    end,
+    poenaDoloris = function()
+        local target = aimbotTarget()
+        if target and math.random() <= 0.8 then
+            local args = {
+                [1] = {["Incant"] = "poena doloris", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Poena Doloris spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor or aimbot chance failed")
+        end
+    end,
+    immobilus = function()
+        local target = aimbotTarget()
+        if target and math.random() <= 0.8 then
+            local args = {
+                [1] = {["Incant"] = "immobilus", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Immobilus spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor or aimbot chance failed")
+        end
+    end,
+    adSomnum = function()
+        local args = {[1] = {["Incant"] = "ad somnum"}}
+        ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+        print("Ad Somnum spell activated")
+    end,
+    silencio = function()
+        local target = aimbotTarget()
+        if target and math.random() <= 0.8 then
+            local args = {
+                [1] = {["Incant"] = "silencio", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Silencio spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor or aimbot chance failed")
+        end
+    end,
+    visSeraPortus = function()
+        local args = {[1] = {["Incant"] = "vis sera portus"}}
+        ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+        print("Vis Sera Portus spell activated")
+    end,
+    postTenebrasSperoLucem = function()
+        local target = aimbotTarget()
+        if target then
+            local args = {
+                [1] = {["Incant"] = "post tenebras spero lucem", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Post Tenebras Spero Lucem spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor")
+        end
+    end,
+    stranguloVentus = function()
+        local target = aimbotTarget()
+        if target then
+            local args = {
+                [1] = {["Incant"] = "strangulo ventus", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Strangulo Ventus spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor")
+        end
+    end,
+
+    ahShaLana = function()
+        local args = {[1] = {["Incant"] = "ah sha lana"}}
+        ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+        print("Ah Sha Lana spell activated")
+    end,
+    venenumCorpus = function()
+        local target = aimbotTarget()
+        if target and math.random() <= 0.8 then
+            local args = {
+                [1] = {["Incant"] = "venenum corpus", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Venenum Corpus spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor or aimbot chance failed")
+        end
+    end,
+    corpusExoquator = function()
+        local target = aimbotTarget()
+        if target then
+            local args = {
+                [1] = {["Incant"] = "corpus exoquator", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Corpus Exoquator spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor")
+        end
+    end,
+    ferveretSanguis = function()
+        local target = aimbotTarget()
+        if target then
+            local args = {
+                [1] = {["Incant"] = "ferveret sanguis", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Ferveret Sanguis spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor")
+        end
+    end,
+    novisImmortalis = function()
+        local target = aimbotTarget()
+        if target then
+            local args = {
+                [1] = {["Incant"] = "novis immortalis", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Novis Immortalis spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor")
+        end
+    end,
+    ventus = function()
+        local target = aimbotTarget()
+        if target then
+            local args = {
+                [1] = {["Incant"] = "ventus", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Ventus spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor")
+        end
+    end,
+    lecutioMaxima = function()
+        local target = aimbotTarget()
+        if target then
+            local args = {
+                [1] = {["Incant"] = "lecutio maxima", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Lecutio Maxima spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor")
+        end
+    end,
+ignisUbique = function()
+    local target = aimbotTarget()
+    if target then
+        local args = {
+            [1] = {["Incant"] = "ignis ubique", ["Target"] = target}
+        }
+        ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+        print("Ignis Ubique spell cast on " .. target.Parent.Name)
+    else
+        print("No target found under the cursor")
+    end
+end,
+autem = function()
+    local target = aimbotTarget()
+    if target then
+        local args = {
+            [1] = {["Incant"] = "autem", ["Target"] = target}
+        }
+        ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+        print("Autem spell cast on " .. target.Parent.Name)
+    else
+        print("No target found under the cursor")
+    end
+end,
+    ascendo = function()
+        local target = aimbotTarget()
+        if target then
+            local args = {
+                [1] = {["Incant"] = "ascendo", ["Target"] = target}
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            print("Ascendo spell cast on " .. target.Parent.Name)
+        else
+            print("No target found under the cursor")
+        end
+    end,
+}
+
+local function bindKeys()
+    bindKeyToSpell("ictus", Enum.KeyCode.C, actions.ictus)
+    bindKeyToSpell("invisique", Enum.KeyCode.E, actions.invisique)
+    bindKeyToSpell("incendia", Enum.KeyCode.R, actions.incendia)
+    bindKeyToSpell("motus", Enum.KeyCode.M, actions.motus)
+    bindKeyToSpell("menedekQualSurenta", Enum.KeyCode.Q, actions.menedekQualSurenta)
+    bindKeyToSpell("ossox", Enum.KeyCode.U, actions.ossox)
+    bindKeyToSpell("erroxFemus", Enum.KeyCode.P, actions.erroxFemus)
+    bindKeyToSpell("delfanEotenCor", Enum.KeyCode.L, actions.delfanEotenCor)
+    bindKeyToSpell("phasmatosMotusIncendiamos", Enum.KeyCode.N, actions.phasmatosMotusIncendiamos)
+    bindKeyToSpell("poenaDoloris", Enum.KeyCode.H, actions.poenaDoloris)
+    bindKeyToSpell("immobilus", Enum.KeyCode.Eight, actions.immobilus)
+    bindKeyToSpell("adSomnum", Enum.KeyCode.Seven, actions.adSomnum)
+    bindKeyToSpell("silencio", Enum.KeyCode.Nine, actions.silencio)
+    bindKeyToSpell("visSeraPortus", Enum.KeyCode.Five, actions.visSeraPortus)
+    bindKeyToSpell("postTenebrasSperoLucem", Enum.KeyCode.Six, actions.postTenebrasSperoLucem)
+    bindKeyToSpell("stranguloVentus", Enum.KeyCode.B, actions.stranguloVentus)
+    bindKeyToSpell("ahShaLana", Enum.KeyCode.G, actions.ahShaLana)
+    bindKeyToSpell("venenumCorpus", Enum.KeyCode.V, actions.venenumCorpus)
+    bindKeyToSpell("corpusExoquator", Enum.KeyCode.B, actions.corpusExoquator)
+    bindKeyToSpell("ferveretSanguis", Enum.KeyCode.F, actions.ferveretSanguis)
+    bindKeyToSpell("novisImmortalis", Enum.KeyCode.N, actions.novisImmortalis)
+    bindKeyToSpell("ventus", Enum.KeyCode.X, actions.ventus)
+    bindKeyToSpell("lecutioMaxima", Enum.KeyCode.Z, actions.lecutioMaxima)
+    bindKeyToSpell("autem", Enum.KeyCode.Y, actions.autem)
+    bindKeyToSpell("ignisUbique", Enum.KeyCode.B, actions.ignisUbique)
+    bindKeyToSpell("ascendo", Enum.KeyCode.J, actions.ascendo)
+end
+
+-- Toggle function for keybinds
+local function toggleKeybind(spell)
+    keybindsEnabled[spell] = not keybindsEnabled[spell]
+    print(spell .. " keybind " .. (keybindsEnabled[spell] and "enabled" or "disabled"))
+end
+
+local W = Window:NewTab("Witches")
+local SpellSection = W:NewSection("Spells Keybinds")
+local HopeSection = W:NewSection("Hope, Dark Josie & Heretics Keybinds")
+local QetSection = W:NewSection("Qetsiyah Keybinds")
+local SpamSection = W:NewSection("Spam")
+local MoreSection = W:NewSection("More Spams")
+local HarvestSection = W:NewSection("Harvest")
+
+SpellSection:NewToggle("Ictus (C)", "", function(state)
+    toggleKeybind("ictus")
+end)
+
+SpellSection:NewToggle("Invisique (E)", "", function(state)
+    toggleKeybind("invisique")
+end)
+
+SpellSection:NewToggle("Incendia (R)", "", function(state)
+    toggleKeybind("incendia")
+end)
+
+SpellSection:NewToggle("Motus (M)", "", function(state)
+    toggleKeybind("motus")
+end)
+
+SpellSection:NewToggle("Menedek Qual Surenta (Q)", "", function(state)
+    toggleKeybind("menedekQualSurenta")
+end)
+
+SpellSection:NewToggle("Ossox (U)", "", function(state)
+    toggleKeybind("ossox")
+end)
+
+SpellSection:NewToggle("Errox Femus (P)", "", function(state)
+    toggleKeybind("erroxFemus")
+end)
+
+SpellSection:NewToggle("Delfan Eoten Cor (L)", "", function(state)
+    toggleKeybind("delfanEotenCor")
+end)
+
+SpellSection:NewToggle("Phasmatos Motus Incendiamos (N)", "", function(state)
+    toggleKeybind("phasmatosMotusIncendiamos")
+end)
+
+SpellSection:NewToggle("Poena Doloris (H)", "", function(state)
+    toggleKeybind("poenaDoloris")
+end)
+
+SpellSection:NewToggle("Immobilus (8)", "", function(state)
+    toggleKeybind("immobilus")
+end)
+
+SpellSection:NewToggle("Ad Somnum (7)", "", function(state)
+    toggleKeybind("adSomnum")
+end)
+
+SpellSection:NewToggle("Silencio (9)", "", function(state)
+    toggleKeybind("silencio")
+end)
+
+SpellSection:NewToggle("Vis Sera Portus (5)", "", function(state)
+    toggleKeybind("visSeraPortus")
+end)
+
+SpellSection:NewToggle("Post Tenebras Spero Lucem (6)", "", function(state)
+    toggleKeybind("postTenebrasSperoLucem")
+end)
+
+HopeSection:NewToggle("Ventus (X)", "", function(state)
+    toggleKeybind("ventus")
+end)
+
+HopeSection:NewToggle("Lecutio Maxima (Z)", "", function(state)
+    toggleKeybind("lecutioMaxima")
+end)
+
+HopeSection:NewToggle("Autem (Y)", "", function(state)
+    toggleKeybind("autem")
+end)
+
+HopeSection:NewToggle("Ignis Ubique (B)", "", function(state)
+    toggleKeybind("ignisUbique")
+end)
+
+HopeSection:NewToggle("Ascendo (J)", "", function(state)
+    toggleKeybind("ascendo")
+end)
+
+HopeSection:NewToggle("Strangulo Ventus (B)", "", function(state)
+    toggleKeybind("stranguloVentus")
+end)
+
+QetSection:NewToggle("Ah Sha Lana (G)", "", function(state)
+    toggleKeybind("ahShaLana")
+end)
+
+QetSection:NewToggle("Venenum Corpus (V)", "", function(state)
+    toggleKeybind("venenumCorpus")
+end)
+
+QetSection:NewToggle("Corpus Exoquator (B)", "", function(state)
+    toggleKeybind("corpusExoquator")
+end)
+
+QetSection:NewToggle("Ferveret Sanguis (F)", "", function(state)
+    toggleKeybind("ferveretSanguis")
+end)
+
+QetSection:NewToggle("Novis Immortalis (N)", "", function(state)
+    toggleKeybind("novisImmortalis")
+end)
+
+bindKeys()
+
+QetSection:NewTextBox("Cure Player", "Type the player username here", function(username)
+    local player = game:GetService("Players").LocalPlayer
+    local players = game:GetService("Players")
+    local replicatedStorage = game:GetService("ReplicatedStorage")
+
+    local targetPlayer = nil
+    for _, otherPlayer in pairs(players:GetPlayers()) do
+        if otherPlayer.Name:lower():find(username:lower(), 1, true) then
+            targetPlayer = otherPlayer
+            break
+        end
+    end
+
+    if targetPlayer then
+        local targetCharacter = targetPlayer.Character
+        if targetCharacter then
+            -- Ficar fixado no lugar
+            local rootPart = player.Character:FindFirstChild("HumanoidRootPart")
+            local originalPosition = rootPart and rootPart.CFrame
+
+            -- Ativar o feitiço 'Novis Immortalis'
+            replicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer({
+                ["Incant"] = "novis immortalis"
+            })
+
+            wait(0.2)
+
+            -- Ativar o feitiço 'Invisique'
+            replicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer({
+                ["Incant"] = "invisique"
+            })
+
+            wait(0.2)
+
+            -- Teleporte para o jogador alvo e usar "The Cure"
+            player.Character:MoveTo(targetCharacter.PrimaryPart.Position)
+
+            wait(0.2)
+
+            local cure = player.Backpack:FindFirstChild("The Cure")
+            if cure then
+                cure.Parent = player.Character
+
+                wait(0.1)
+
+                if targetCharacter and targetCharacter:FindFirstChild("HumanoidRootPart") then
+                    local args = {
+                        [1] = targetCharacter,
+                        [2] = true
+                    }
+                    cure.Signal:FireServer(unpack(args))
+
+                    -- Voltar à posição original
+                    if originalPosition then
+                        wait(0.2)
+                        player.Character:SetPrimaryPartCFrame(originalPosition)
+                    end
+                else
+                    print("Target character or HumanoidRootPart not found")
+                end
+            else
+                print("The Cure not found in backpack")
+            end
+        else
+            print("Target character not found")
+        end
+    else
+        print("Player not found")
+    end
+end)
+
+QetSection:NewButton("Cure People Around You", "", function()
+    local player = game:GetService("Players").LocalPlayer
+    local players = game:GetService("Players")
+    local originalPosition = player.Character.PrimaryPart.Position
+    local cureRadius = 20 -- Define the radius for curing
+
+    local function activateSpells()
+        local spellArgs1 = {
+            [1] = {["Incant"] = "novis immortalis"}
+        }
+        ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(spellArgs1))
+        wait(0.5)
+        local spellArgs2 = {
+            [1] = {["Incant"] = "invisique"}
+        }
+        ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(spellArgs2))
+        wait(1)
+    end
+
+    local function applyCure(targetChar)
+        local cure = player.Backpack:FindFirstChild("The Cure")
+        if cure then
+            cure.Parent = player.Character
+            local args = {
+                [1] = targetChar,
+                [2] = true
+            }
+            cure.Signal:FireServer(unpack(args))
+        end
+    end
+
+    activateSpells()
+
+    for _, otherPlayer in pairs(players:GetPlayers()) do
+        if otherPlayer ~= player and otherPlayer.Character then
+            local distance = (player.Character.PrimaryPart.Position - otherPlayer.Character.PrimaryPart.Position).Magnitude
+            if distance <= cureRadius then
+                applyCure(otherPlayer.Character)
+            end
+        end
+    end
+end)
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local isSpellSpamming = false
+local targetPlayerName = ""
+
+local function spamSpells(targetPlayer, spells)
+    while isSpellSpamming do
+        if not targetPlayer or not targetPlayer.Character then break end
+        for _, spell in ipairs(spells) do
+            for i = 1, 10 do
+                local args = {
+                    [1] = {
+                        ["Incant"] = spell,
+                        ["Target"] = targetPlayer.Character
+                    }
+                }
+                ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+            end
+            wait(0.01)
+        end
+    end
+end
+
+local function findPlayerByName(partialName)
+    for _, player in pairs(Players:GetPlayers()) do
+        if string.find(player.Name:lower(), partialName:lower()) then
+            return player
+        end
+    end
+    return nil
+end
+
+SpamSection:NewTextBox("Kill Player", "", function(username)
+    local targetPlayer = findPlayerByName(username)
+    if targetPlayer then
+        isSpellSpamming = true
+        targetPlayerName = username
+        spawn(function() 
+            spamSpells(targetPlayer, {
+                "incendia", "poena doloris", "errox femus", "ferveret sanguis", 
+                "lecutio maxima", "ventus", "silencio"
+            })
+        end)
+    else
+        print("Jogador não encontrado")
+    end
+end)
+
+SpamSection:NewButton("Kill All", "", function()
+    isSpellSpamming = true
+    spawn(function()
+        local spells = {
+            "incendia", "poena doloris", "errox femus", "ferveret sanguis", 
+            "lecutio maxima", "ventus", "silencio"
+        }
+        while isSpellSpamming do
+            for _, player in pairs(Players:GetPlayers()) do
+                if player ~= Players.LocalPlayer and player.Character then
+                    spamSpells(player, spells)
+                end
+            end
+        end
+    end)
+end)
+
+local spellFunctions = {
+    ["Channel"] = function(targetPlayer) spamSpells(targetPlayer, {"channel"}) end,
+    ["Incendia"] = function(targetPlayer) spamSpells(targetPlayer, {"incendia"}) end,
+    ["Errox Femus"] = function(targetPlayer) spamSpells(targetPlayer, {"errox femus"}) end,
+    ["Delfan Eoten Cor"] = function(targetPlayer) spamSpells(targetPlayer, {"delfan eoten cor"}) end,
+    ["Immobilus"] = function(targetPlayer) spamSpells(targetPlayer, {"immobilus"}) end,
+    ["Ad Somnum"] = function(targetPlayer) spamSpells(targetPlayer, {"ad somnum"}) end,
+    ["Fire Circle"] = function(targetPlayer) spamSpells(targetPlayer, {"phasmatos motus incendiamos"}) end,
+    ["Strangulo Ventus"] = function(targetPlayer) spamSpells(targetPlayer, {"strangulo ventus"}) end,
+    ["Lignis Vulnus"] = function(targetPlayer) spamSpells(targetPlayer, {"lignis vulnus"}) end,
+    ["Silencio"] = function(targetPlayer) spamSpells(targetPlayer, {"silencio"}) end,
+    ["Ossox"] = function(targetPlayer) spamSpells(targetPlayer, {"ossox"}) end,
+    ["Ictus"] = function(targetPlayer) spamSpells(targetPlayer, {"ictus"}) end,
+    ["Lecutio Maxima"] = function(targetPlayer) spamSpells(targetPlayer, {"lecutio maxima"}) end,
+    ["Corpus Exoquator"] = function(targetPlayer) spamSpells(targetPlayer, {"corpus exoquator"}) end,
+    ["Venenum Corpus"] = function(targetPlayer) spamSpells(targetPlayer, {"venenum corpus"}) end,
+    ["Doloris Sanguinis"] = function(targetPlayer) spamSpells(targetPlayer, {"doloris sanguinis"}) end,
+    ["Duratus Vita"] = function(targetPlayer) spamSpells(targetPlayer, {"duratus vita"}) end,
+    ["Phasmatos Immortalis"] = function(targetPlayer) spamSpells(targetPlayer, {"phasmatos immortalis"}) end,
+    ["Mentis Imperium"] = function(targetPlayer) spamSpells(targetPlayer, {"mentis imperium"}) end,
+    ["Lupus Execratione Maledicta"] = function(targetPlayer) spamSpells(targetPlayer, {"lupus execratione maledicta"}) end
+}
+
+for spellName, func in pairs(spellFunctions) do
+    SpamSection:NewTextBox(spellName, "", function(username)
+        local targetPlayer = findPlayerByName(username)
+        if targetPlayer then
+            isSpellSpamming = true
+            spawn(function() func(targetPlayer) end)
+        else
+            print("Jogador não encontrado")
+        end
+    end)
+end
+
+local function spamSpellOnServer(spell)
+    local localPlayer = Players.LocalPlayer
+    while isSpellSpamming do
+        for _, player in pairs(Players:GetPlayers()) do
+            if player ~= localPlayer and player.Character then
+                for i = 1, 10 do
+                    local args = {
+                        [1] = {
+                            ["Incant"] = spell,
+                            ["Target"] = player.Character
+                        }
+                    }
+                    ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+                end
+                wait(0.01)
+            end
+        end
+    end
+end
+
+local serverSpells = {
+    ["Spam Incendia All"] = "incendia",
+    ["Spam Pain Infliction All"] = "poena doloris",
+    ["Spam Errox Femus All"] = "errox femus",
+    ["Spam Lecutio Maxima All"] = "lecutio maxima",
+    ["Spam Ventus All"] = "ventus",
+    ["Spam Silencio All"] = "silencio",
+    ["Spam Delfan Eoten Cor All"] = "delfan eoten cor",
+    ["Spam Lignis Vulnus All"] = "lignis vulnus",
+    ["Spam Strangulo Ventus All"] = "strangulo ventus",
+    ["Spam Ossox All"] = "ossox",
+    ["Spam Ictus All"] = "ictus",
+    ["Spam Immobilus All"] = "immobilus",
+    ["Spam Doloris Sanguinis All"] = "doloris sanguinis",
+    ["Spam Lupus Execratione Maledicta All"] = "lupus execratione maledicta",
+    ["Spam Mentis Imperium All"] = "mentis imperium",
+    ["Spam Duratus Vita All"] = "duratus vita"
+}
+
+for buttonText, spell in pairs(serverSpells) do
+    SpamSection:NewButton(buttonText, "", function()
+        isSpellSpamming = true
+        spawn(function() spamSpellOnServer(spell) end)
+    end)
+end
+
+SpamSection:NewButton("Spam Autem", "", function()
+    isSpellSpamming = true
+    spawn(function()
+        local spells = {"autem"}
+        while isSpellSpamming do
+            for _, player in pairs(Players:GetPlayers()) do
+                if player ~= Players.LocalPlayer and player.Character then
+                    spamSpells(player, spells)
+                end
+            end
+        end
+    end)
+end)
+
+SpamSection:NewButton("Spam Ignis Ubique", "", function()
+    isSpellSpamming = true
+    spawn(function()
+        local spells = {"ignis ubique"}
+        while isSpellSpamming do
+            for _, player in pairs(Players:GetPlayers()) do
+                if player ~= Players.LocalPlayer and player.Character then
+                    spamSpells(player, spells)
+                end
+            end
+        end
+    end)
+end)
+
+SpamSection:NewButton("Spam Errox Confractus", "", function()
+    isSpellSpamming = true
+    spawn(function()
+        local spells = {"errox confractus"}
+        while isSpellSpamming do
+            for _, player in pairs(Players:GetPlayers()) do
+                if player ~= Players.LocalPlayer and player.Character then
+                    spamSpells(player, spells)
+                end
+            end
+        end
+    end)
+end)
+
+SpamSection:NewButton("Spam Sanitas Est Vitalis", "", function()
+    isSpellSpamming = true
+    spawn(function()
+        local spells = {"sanitas est vitalis"}
+        while isSpellSpamming do
+            for _, player in pairs(Players:GetPlayers()) do
+                if player ~= Players.LocalPlayer and player.Character then
+                    spamSpells(player, spells)
+                end
+            end
+        end
+    end)
+end)
+
+SpamSection:NewButton("Spam Ex Spiritum In Tacullum", "", function()
+    isSpellSpamming = true
+    spawn(function()
+        local spells = {"ex spiritum in tacullum"}
+        while isSpellSpamming do
+            for _, player in pairs(Players:GetPlayers()) do
+                if player ~= Players.LocalPlayer and player.Character then
+                    spamSpells(player, spells)
+                end
+            end
+        end
+    end)
+end)
+
+SpamSection:NewButton("Loop Invisique", "", function()
+    isSpellSpamming = true
+    spawn(function()
+        local spells = {"invisique"}
+        while isSpellSpamming do
+            for _, player in pairs(Players:GetPlayers()) do
+                if player ~= Players.LocalPlayer and player.Character then
+                    spamSpells(player, spells)
+                end
+            end
+        end
+    end)
+end)
+
+SpamSection:NewButton("Stop Spams", "", function()
+    isSpellSpamming = false
+    print("Spell spamming stopped.")
+end)
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local isSpellSpamming = false
+local targetPlayerName = ""
+local targetSelf = false -- Toggle to target self
+local targetOthers = false -- Toggle to target others
+
+-- Function to spam spells
+local function spamSpells(targetPlayer, spell)
+    while isSpellSpamming do
+        if not targetPlayer or not targetPlayer.Character then break end
+        for i = 1, 10 do
+            local args = {
+                [1] = {
+                    ["Incant"] = spell,
+                    ["Target"] = targetPlayer.Character
+                }
+            }
+            ReplicatedStorage:WaitForChild("RemoteEvents"):WaitForChild("WitchSpell"):FireServer(unpack(args))
+        end
+        wait(0.01)
+    end
+end
+
+-- Function to find a player by partial name
+local function findPlayerByName(partialName)
+    for _, player in pairs(Players:GetPlayers()) do
+        if string.find(player.Name:lower(), partialName:lower()) then
+            return player
+        end
+    end
+    return nil
+end
+
+-- NewTextBox to type a spell and target selection toggles
+MoreSection:NewTextBox("Type Spell", "Enter spell name here", function(spell)
+    local targetPlayer
+    if targetSelf then
+        targetPlayer = Players.LocalPlayer -- Cast spell on yourself
+    elseif targetOthers then
+        targetPlayer = findPlayerByName(targetPlayerName) -- Cast spell on the other player
+    end
+    
+    if targetPlayer then
+        isSpellSpamming = true
+        spawn(function()
+            spamSpells(targetPlayer, spell)
+        end)
+    else
+        print("Target not found")
+    end
+end)
+
+-- NewTextBox to type the player name if casting on someone else
+MoreSection:NewTextBox("Target Player", "Enter target player name", function(username)
+    targetPlayerName = username
+end)
+
+-- Toggle to cast on yourself
+MoreSection:NewToggle("Cast on Myself", "Toggle to cast on yourself", function(state)
+    targetSelf = state
+    targetOthers = not state -- Disable casting on others when casting on self
+end)
+
+-- Toggle to cast on others
+MoreSection:NewToggle("Cast on Others", "Toggle to cast on others", function(state)
+    targetOthers = state
+    targetSelf = not state -- Disable casting on self when casting on others
+end)
+
+-- Button to stop spamming
+MoreSection:NewButton("Stop Spamming", "Click to stop spell spamming", function()
+    isSpellSpamming = false
+end)
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+local telekinesisAllActive = false
+
+local function activateTelekinesisOnPlayer(targetPlayer)
+    if targetPlayer and targetPlayer.Character then
+        local part = targetPlayer.Character:FindFirstChildWhichIsA("BasePart")
+        if part then
+            local args = {
+                [1] = "TelekinesisProcess",
+                [2] = part
+            }
+            ReplicatedStorage:WaitForChild("Events"):WaitForChild("CharacterSystems"):WaitForChild("Telekinesis"):FireServer(unpack(args))
+        end
+    end
+end
+
+Mouse.Button1Down:Connect(function()
+    if telekinesisAllActive then
+        local targetPlayer = Players:GetPlayerFromCharacter(Mouse.Target.Parent)
+        if targetPlayer and targetPlayer ~= LocalPlayer then
+            activateTelekinesisOnPlayer(targetPlayer)
+        end
+    end
+end)
+
+MoreSection:NewToggle("Telekinesis Player", "Toggle to activate telekinesis on clicked players", function(state)
+    telekinesisAllActive = state
+end)
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalPlayer = Players.LocalPlayer
+
+local function activateTelekinesisOnPlayer(targetPlayer)
+    if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("Character") then
+        local args = {
+            [1] = "TelekinesisEnd",
+            [2] = {
+                ["Target"] = targetPlayer.Character,
+                ["Throw"] = true
+            }
+        }
+        ReplicatedStorage:WaitForChild("Events"):WaitForChild("CharacterSystems"):WaitForChild("Telekinesis"):FireServer(unpack(args))
+    end
+end
+
+MoreSection:NewTextBox("Throw Player", "Type the username of the target player", function(targetUsername)
+    local targetPlayer = Players:FindFirstChild(targetUsername)
+    if targetPlayer and targetPlayer ~= LocalPlayer then
+        activateTelekinesisOnPlayer(targetPlayer)
+    else
+        print("Player not found or you cannot target yourself.")
+    end
+end)
+
+HarvestSection:NewTextBox("Harvest Slice Player", "", function(inputName)
+    local players = game:GetService("Players")
+    local selectedPlayer = nil
+
+    -- Buscar o jogador com o nome correspondente (não precisa ser o nome completo)
+    for _, player in pairs(players:GetPlayers()) do
+        if player.Name:lower():find(inputName:lower(), 1, true) then
+            selectedPlayer = player
+            break
+        end
+    end
+
+    if selectedPlayer then
+        local args = {
+            [1] = selectedPlayer
+        }
+        game:GetService("ReplicatedStorage").RemoteEvents.Harvest:FireServer(unpack(args))
+    else
+        print("Player not found")
+    end
+end)
+
+HarvestSection:NewButton("Copy Harvest Dagger", "", function()
+    local player = game:GetService("Players").LocalPlayer
+    local players = game:GetService("Players")
+
+    local function copyTool(tool)
+        local clonedTool = tool:Clone()
+        clonedTool.Parent = player.Backpack
+    end
+
+    -- Iterate through all players and check their inventory for the Harvest Dagger
+    for _, otherPlayer in pairs(players:GetPlayers()) do
+        if otherPlayer ~= player and otherPlayer:FindFirstChild("Backpack") then
+            local tool = otherPlayer.Backpack:FindFirstChild("Harvest Dagger") or otherPlayer.Character:FindFirstChild("Harvest Dagger")
+            if tool then
+                copyTool(tool)
+                break
+            end
+        end
+    end
+
+    -- Check the Workspace for the Harvest Dagger
+    local workspaceTool = workspace:FindFirstChild("Harvest Dagger")
+    if workspaceTool then
+        copyTool(workspaceTool)
+    end
+end)
+
+HarvestSection:NewButton("Change The Hold Duration", "", function()
+    local harvestPrompt = workspace.HarvestRitual.HarvestPart.Prompt
+
+    local function adjustHoldDuration()
+        if harvestPrompt.HoldDuration == 10 then
+            harvestPrompt.HoldDuration = 1
+        else
+            harvestPrompt.HoldDuration = 1
+        end
+    end
+
+    adjustHoldDuration()
+end)
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local isSpamming = false
+local spamThread
+
+local function findPlayerByName(partialName)
+    for _, player in pairs(Players:GetPlayers()) do
+        if string.find(string.lower(player.Name), string.lower(partialName)) then
+            return player
+        end
+    end
+    return nil
+end
+
+local function shootPlayer(targetPlayer)
+    if not isSpamming then return end
+    spawn(function()
+        while isSpamming do
+            if targetPlayer.Character and targetPlayer.Character:FindFirstChild("Head") then
+                local args = {
+                    [1] = targetPlayer.Character.Head
+                }
+                local pistol = LocalPlayer.Character:FindFirstChild("Pistol")
+                if pistol and pistol:FindFirstChild("bowLocal") then
+                    local bowEvent = pistol.bowLocal:FindFirstChild("bowEvent")
+                    if bowEvent then
+                        bowEvent:FireServer(unpack(args))
+                    end
+                end
+            end
+            wait(0.05)
+        end
+    end)
+end
+
+MoreSection:NewTextBox("Shoot Player", "", function(username)
+    local targetPlayer = findPlayerByName(username)
+    if targetPlayer then
+        isSpamming = true
+        shootPlayer(targetPlayer)
+    end
+end)
+
+MoreSection:NewButton("Stop Shooting", "", function()
+    isSpamming = false
+end)
+
+local V = Window:NewTab("Vampires")
+local VpSection = V:NewSection("Energy Keybinds")
+
+-- Services
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalPlayer = Players.LocalPlayer
+
+-- Keybind actions and their respective events
+local keybindActions = {
+    Punch = {keyCode = Enum.KeyCode.F, event = ReplicatedStorage.Events.CharacterSystems.PunchPlayer},
+    ThroatRip = {keyCode = Enum.KeyCode.B, event = ReplicatedStorage.Events.CharacterSystems.ThroatRip},
+    Bite = {keyCode = Enum.KeyCode.E, event = ReplicatedStorage.Events.CharacterSystems.BitePlayer},
+    WolfBite = {keyCode = Enum.KeyCode.X, event = ReplicatedStorage.Events.CharacterSystems.WolfBitePlayer},
+    HeartRip = {keyCode = Enum.KeyCode.R, event = ReplicatedStorage.Events.CharacterSystems.Heartrip},
+    Compell = {keyCode = Enum.KeyCode.N, event = ReplicatedStorage.Events.CharacterSystems.Compulsion},
+    Snap = {keyCode = Enum.KeyCode.Q, event = ReplicatedStorage.Events.CharacterSystems.SnapPlayer},
+    Heal = {keyCode = Enum.KeyCode.G, event = ReplicatedStorage.Events.CharacterSystems.FeedPlayer},
+}
+
+-- Keybind state management
+local keybindsEnabled = {}
+for actionName, _ in pairs(keybindActions) do
+    keybindsEnabled[actionName] = false
+end
+
+-- Utility function to find the nearest player
+local function findNearestPlayer()
+    local myPos = LocalPlayer.Character and LocalPlayer.Character.PrimaryPart and LocalPlayer.Character.PrimaryPart.Position
+    if not myPos then return nil end
+
+    local nearestPlayer, minDist = nil, math.huge
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and player.Character and player.Character.PrimaryPart then
+            local theirPos = player.Character.PrimaryPart.Position
+            local dist = (theirPos - myPos).Magnitude
+            if dist < minDist then
+                minDist, nearestPlayer = dist, player
+            end
+        end
+    end
+
+    return nearestPlayer, minDist
+end
+
+-- Teleport near the target if within 50 meters
+local function teleportNearTarget(targetPlayer)
+    local myPos = LocalPlayer.Character and LocalPlayer.Character.PrimaryPart and LocalPlayer.Character.PrimaryPart.Position
+    local targetPos = targetPlayer.Character and targetPlayer.Character.PrimaryPart and targetPlayer.Character.PrimaryPart.Position
+    if myPos and targetPos then
+        local distance = (targetPos - myPos).Magnitude
+        if distance <= 50 then
+            local offsetPos = targetPos + Vector3.new(3, 0, 3) -- Small offset to teleport nearby
+            LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(offsetPos))
+            return true -- Teleport successful
+        end
+    end
+    return false -- Teleport not performed
+end
+
+-- General function to handle keybind activation
+local function activateKeybind(actionName)
+    local targetPlayer, distance = findNearestPlayer()
+    if targetPlayer then
+        local teleported = teleportNearTarget(targetPlayer)
+        if teleported then
+            wait(0.1) -- Brief delay after teleporting
+            
+            -- Custom argument structure for the keybinds
+            local args = {
+                [1] = {
+                    ["Target"] = targetPlayer.Character.LeftUpperArm
+                }
+            }
+            
+            -- Fire the event for the specific action
+            keybindActions[actionName].event:FireServer(unpack(args))
+        else
+            print("Player is too far, teleport not performed.") -- Debug message, remove if unnecessary
+        end
+    end
+end
+
+-- Binding keys to actions with teleportation check
+local function bindKeyToAction(actionName, keyCode)
+    UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
+        if input.KeyCode == keyCode and not gameProcessedEvent and keybindsEnabled[actionName] then
+            activateKeybind(actionName)
+        end
+    end)
+end
+
+-- Bind all actions to their respective keys
+for actionName, actionData in pairs(keybindActions) do
+    bindKeyToAction(actionName, actionData.keyCode)
+end
+
+-- Function to toggle keybinds
+local function createToggle(actionName, displayName, section)
+    section:NewToggle(displayName, "", function(state)
+        keybindsEnabled[actionName] = state
+    end)
+end
+
+-- Add toggles to the GUI for each action
+for actionName, _ in pairs(keybindActions) do
+    createToggle(actionName, actionName .. " (" .. keybindActions[actionName].keyCode.Name .. ")", VpSection)
+end
+
+local Shop = Window:NewTab("Shop")
+local ShopSection = Shop:NewSection("Shop")
+
+local players = game:GetService("Players")
+local replicatedStorage = game:GetService("ReplicatedStorage")
+
+local function createShopButton(name, event, customCallback)
+    ShopSection:NewButton(name, "", function()
+        local localPlayer = players.LocalPlayer
+        local playerGui = localPlayer.PlayerGui
+        local dialogueGui = playerGui.dialogueGui
+
+        local args = {
+            [1] = {
+                [1] = dialogueGui.dialogueScript,
+                [2] = event,
+                [3] = dialogueGui
+            }
+        }
+
+        replicatedStorage.Events.guiSpecialEvent:FireServer(unpack(args))
+        
+        if customCallback then
+            customCallback()
+        end
+    end)
+end
+
+createShopButton("Get Free Wooden Stake", "freeStake")
+createShopButton("Get Blood Drink", "receiveBloodDrink")
+createShopButton("Make Vervain Granade", "vervNade")
+createShopButton("Get Oak Ash", "receiveWhiteOakAsh")
+createShopButton("Buy Vervain Syringe", "VervainSyringe", function() fireclickdetector(game:GetService("Workspace").StakesRegisters.VervainSyringe.ClickDetector) end)
+createShopButton("Buy Vervain", "Vervain", function() fireclickdetector(game:GetService("Workspace").StakesRegisters.Vervain.ClickDetector) end)
+createShopButton("Buy Wolfsbane", "Wolfsbane", function() fireclickdetector(game:GetService("Workspace").StakesRegisters.Wolfsbane.ClickDetector) end)
+
+createShopButton("Identify Plants", "identifyPlant")
+createShopButton("Get Beverage", "receiveBeverage")
+createShopButton("Get Coffee", "receiveCoffee")
+createShopButton("Get Bouquet", "flowers")
+createShopButton("Get Candle", "buyCandle")
+createShopButton("Get Moon Vial", "buyPotion")
+createShopButton("Get Enchanted Dagger", "buyDagger")
+
+-- Stats section
+
+local Stats = Window:NewTab("Stats")
+local StatsSection = Stats:NewSection("Stats")
+local TurnSection = Stats:NewSection("Resurrect/Transition")
+local CstmSection = Stats:NewSection("Custom Characters")
+local SpecieSection = Stats:NewSection("Change Species Stats")
+local OSSection = Stats:NewSection("OtherSide")
+
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+
+local function createStatsButton(section, action)
+    section:NewButton("Increase " .. action, "", function()
+        tap:Play()
+        local localPlayer = Players.LocalPlayer
+        local playerGui = localPlayer:WaitForChild("PlayerGui")
+        local dialogueGui = playerGui:FindFirstChild("dialogueGui")
+
+        if dialogueGui then
+            local args = {
+                [1] = {
+                    [1] = dialogueGui:FindFirstChild("dialogueScript"),
+                    [2] = "increaseMax" .. action,
+                    [3] = dialogueGui
+                }
+            }
+            ReplicatedStorage:WaitForChild("Events"):WaitForChild("guiSpecialEvent"):FireServer(unpack(args))
+        end
+    end)
+end
+
+createStatsButton(StatsSection, "Health")
+createStatsButton(StatsSection, "Magic")
+createStatsButton(StatsSection, "Energy")
+
+local isSpamming = false
+
+local function activateEventWithArgs()
+    local localPlayer = Players.LocalPlayer
+    local playerGui = localPlayer:WaitForChild("PlayerGui")
+    local dialogueGui = playerGui:FindFirstChild("dialogueGui")
+    
+    if dialogueGui then
+        for i = 1, 10 do
+            local args = {
+                [1] = {
+                    [1] = dialogueGui:FindFirstChild("dialogueScript"),
+                    [2] = "increaseMaxHealth",
+                    [3] = dialogueGui
+                }
+            }
+            ReplicatedStorage:WaitForChild("Events"):WaitForChild("guiSpecialEvent"):FireServer(unpack(args))
+        end
+    else
+        print("Dialogue GUI not found.")
+    end
+end
+
+local function startEventSpam()
+    while isSpamming do
+        activateEventWithArgs()
+        wait(0.01)
+    end
+end
+
+StatsSection:NewToggle("Immortality", "", function(state)
+    tap:Play()
+    isSpamming = state
+    if isSpamming then
+        spawn(startEventSpam)
+    end
+end)
+
+local function activateEventWithArgsForPotions()
+    local localPlayer = Players.LocalPlayer
+    local playerGui = localPlayer:WaitForChild("PlayerGui")
+    local dialogueGui = playerGui:FindFirstChild("dialogueGui")
+    
+    if dialogueGui then
+        local args = {
+            [1] = {
+                [1] = dialogueGui:FindFirstChild("dialogueScript"),
+                [2] = "buyPotion",
+                [3] = dialogueGui
+            }
+        }
+        for i = 1, 10 do
+            ReplicatedStorage:WaitForChild("Events"):WaitForChild("guiSpecialEvent"):FireServer(unpack(args))
+        end
+    else
+        print("Dialogue GUI not found.")
+    end
+end
+
+local function activateAllMoonVials()
+    local player = Players.LocalPlayer
+    local character = player.Character
+    local backpack = player:WaitForChild("Backpack")
+    
+    for _, item in pairs(backpack:GetChildren()) do
+        if item.Name == "Moon Vial" then
+            item.Parent = character
+            item:Activate()
+            wait(0.01)
+        end
+    end
+end
+
+StatsSection:NewButton("Regen Health", "", function()
+    tap:Play()
+    activateEventWithArgsForPotions()
+    wait(0.5)
+    activateAllMoonVials()
+end)
+
+StatsSection:NewToggle("Regen Magic", "", function(state)
+    tap:Play()
+
+    _G.toggleActive = state
+    if state then
+        spawn(function()
+            while _G.toggleActive do
+                for _ = 1, 20 do
+                    ReplicatedStorage.Events.CharacterSystems.CharacterStats:FireServer("CheckStat")
+                end
+                wait(0)
+            end
+        end)
+    end
+end)
+
+local isRegenActive = false
+
+local function regenMagicLoop()
+    while isRegenActive do
+        local localPlayer = Players.LocalPlayer
+        if localPlayer and localPlayer.Character and localPlayer.Character:FindFirstChild("Candle") then
+            local candle = localPlayer.Character.Candle
+            if candle:FindFirstChild("Handle") and candle.Handle:FindFirstChild("signal") then
+                candle.Handle.signal:FireServer()
+            end
+        end
+        wait(0.01)
+    end
+end
+
+StatsSection:NewToggle("Candle Regen Magic", "", function(state)
+    tap:Play()
+    isRegenActive = state
+    if isRegenActive then
+        spawn(regenMagicLoop)
+    end
+end)
+
+TurnSection:NewButton("Resurrect", "", function()
+    tap:Play()
+
+    local args = {
+        [1] = {
+            ["Tribrid"] = false,
+            ["Transition"] = false,
+            ["Option"] = "revive",
+            ["Approved"] = true,
+            ["Resurrect"] = true,
+        }
+    }
+
+    ReplicatedStorage:WaitForChild("Events"):WaitForChild("PlayerDeath"):FireServer(unpack(args))
+end)
+
+TurnSection:NewButton("Turn Vampire", "", function()
+    tap:Play()
+
+    local args = {
+        [1] = {
+            ["Tribrid"] = false,
+            ["Transition"] = true,
+            ["Option"] = "revive",
+            ["Approved"] = true,
+            ["Resurrect"] = true,
+        }
+    }
+
+    ReplicatedStorage:WaitForChild("Events"):WaitForChild("PlayerDeath"):FireServer(unpack(args))
+end)
+
+TurnSection:NewButton("Mortal Turn Vampire", "", function()
+    tap:Play()
+
+    local localPlayer = Players.LocalPlayer
+    local playerGui = localPlayer.PlayerGui
+    local dialogueGui = playerGui:FindFirstChild("dialogueGui")
+
+    if dialogueGui then
+        local customArgs = {
+            [1] = {
+                [1] = dialogueGui:FindFirstChild("dialogueScript"),
+                [2] = "turnVamp",
+                [3] = dialogueGui
+            }
+        }
+
+        ReplicatedStorage:WaitForChild("Events"):WaitForChild("guiSpecialEvent"):FireServer(unpack(customArgs))
+    else
+        print("Dialogue GUI not found.")
+    end
+end)
+
+local characters = {
+    ["Hope Mikaelson"] = "Hope School Uniform",
+    ["Qetsiyah"] = "Wedding Qetsiyah",
+    ["Dark Josie Saltzman"] = "Alt Dark Josie",
+    ["Freya Mikaelson"] = "Classic Freya",
+    ["Josie Saltzman"] = "Classic Josie",
+    ["Lizzie Saltzman"] = "Classic Lizzie",
+    ["Kai Parker"] = "Classic Kai",
+    ["Genevieve"] = "Classic Genevieve",
+    ["Bastianna"] = "Classic Bastianna",
+    ["Agnes"] = "Classic Agnes",
+    ["Josephine"] = "Classic Josephine",
+    ["Stefan Salvatore"] = "Classic Stefan",
+    ["Damon Salvatore"] = "Classic Damon",
+    ["Katherine Pierce"] = "Classic Katherine",
+    ["Lorenzo “Enzo” St. John"] = "Classic Lorenzo",
+    ["Lucien Castle"] = "Classic Lucien",
+    ["Marcel Gerard"] = "Classic Marcel",
+    ["Aurora De Martel"] = "Classic Aurora",
+    ["Tristan De Martel"] = "Classic Tristan",
+    ["Caroline Forbes"] = "Classic Caroline",
+    ["Hayley Marshall"] = "Classic Hayley",
+    ["Tyler Lockwood"] = "Classic Tyler",
+    ["Aiden"] = "Classic Aiden",
+    ["Jed"] = "Classic Jed",
+    ["Jules"] = "Classic Jules",
+    ["Elijah Mikaelson"] = "Classic Elijah",
+    ["Josette 'Jo' Parker"] = "Jo Parker Outfit",
+    ["Vincent Griffith"] = "Classic Vincent",
+    ["Olivia Parker"] = "Classic Olivia",
+    ["Alyssa Chang"] = "Classic Alyssa",
+    ["Monique Deveraux"] = "Classic Monique",
+    ["Luke Parker"] = "Classic Luke",
+    ["Sophie Deveraux"] = "Classic Sophie",
+    ["Lucy Bennett"] = "Classic Lucy",
+    ["Sheila Bennett"] = "Classic Sheila",
+    ["Celeste Dubois"] = "Classic Celeste",
+    ["Aya Al-Rashid"] = "Classic Aya",
+    ["Isobel Flemming"] = "Classic Isobel",
+    ["Pearl Zhu"] = "Pearl Casual",
+    ["Lexi Branson"] = "Classic Lexi",
+    ["Lily Salvatore"] = "Classic Lily",
+    ["Rose"] = "Classic Rose",
+    ["Annabelle Zhu"] = "Classic Annabelle",
+    ["Nadia Petrova"] = "Classic Nadia",
+    ["Vicki Donovan"] = "Classic Vicki",
+    ["Josh Rosza"] = "Classic Josh",
+    ["Camille O'Connell"] = "Classic Camille",
+    ["Jenna Sommers"] = "Classic Jenna",
+    ["Carol Lockwood"] = "Classic Carol",
+    ["Jeremy Gilbert"] = "Classic Jeremy",
+    ["Matt Donovan"] = "Classic Matt",
+    ["Liz Forbes"] = "Classic Liz",
+    ["Elena Gilbert"] = "Classic Elena"
+}
+
+TurnSection:NewTextBox("Turn To Heretic As…", "Enter Character Name", function(inputText)
+    tap:Play()
+
+local hopeChar = {
+        ["CharName"] = "Kai Parker",
+        ["Outfit"] = "Classic Kai"
+    }
+    ReplicatedStorage:WaitForChild("Events"):WaitForChild("SpawnAsCharacter"):FireServer(hopeChar)
+    
+    wait(0.5)
+    
+    local transitionArgs = {
+        [1] = {
+            ["Tribrid"] = false,
+            ["Transition"] = true,
+            ["Option"] = "revive",
+            ["Approved"] = true,
+            ["Resurrect"] = true,
+        }
+    }
+    ReplicatedStorage:WaitForChild("Events"):WaitForChild("PlayerDeath"):FireServer(unpack(transitionArgs))
+    
+    wait(4)
+    
+    local foundCharName = nil
+    local foundOutfit = nil
+
+    for name, outfit in pairs(characters) do
+        if string.sub(name:lower(), 1, #inputText) == inputText:lower() then
+            foundCharName = name
+            foundOutfit = outfit
+            break
+        end
+    end
+
+    if foundCharName then
+        local char = {
+            ["CharName"] = foundCharName,
+            ["Outfit"] = foundOutfit
+        }
+        ReplicatedStorage:WaitForChild("Events"):WaitForChild("SpawnAsCharacter"):FireServer(char)
+    else
+        warn("Character not found: " .. inputText)
+    end
+end)
+
+TurnSection:NewTextBox("Turn To Tribrid As…", "Enter Character Name", function(inputText)
+    tap:Play()
+
+local hopeChar = {
+        ["CharName"] = "Hope Mikaelson",
+        ["Outfit"] = "Hope School Uniform"
+    }
+    ReplicatedStorage:WaitForChild("Events"):WaitForChild("SpawnAsCharacter"):FireServer(hopeChar)
+    
+    wait(0.5)
+    
+    local transitionArgs = {
+        [1] = {
+            ["Tribrid"] = false,
+            ["Transition"] = true,
+            ["Option"] = "revive",
+            ["Approved"] = true,
+            ["Resurrect"] = true,
+        }
+    }
+    ReplicatedStorage:WaitForChild("Events"):WaitForChild("PlayerDeath"):FireServer(unpack(transitionArgs))
+    
+    wait(4)
+    
+    local foundCharName = nil
+    local foundOutfit = nil
+
+    for name, outfit in pairs(characters) do
+        if string.sub(name:lower(), 1, #inputText) == inputText:lower() then
+            foundCharName = name
+            foundOutfit = outfit
+            break
+        end
+    end
+
+    if foundCharName then
+        local char = {
+            ["CharName"] = foundCharName,
+            ["Outfit"] = foundOutfit
+        }
+        ReplicatedStorage:WaitForChild("Events"):WaitForChild("SpawnAsCharacter"):FireServer(char)
+    else
+        warn("Character not found: " .. inputText)
+    end
+end)
+
+TurnSection:NewButton("Respawn", "Info", function()
+    tap:Play()
+
+    local args = {
+        [1] = {
+            ["Option"] = "respawn"
+        }
+    }
+    game:GetService("ReplicatedStorage").Events.PlayerDeath:FireServer(unpack(args))
+end)
+
+local displayName = ""
+
+CstmSection:NewTextBox("Choose Custom Name", "Enter name", function(name)
+    displayName = name
+end)
+
+local function spamSpawnCommand(spawnArgs)
+    local duration = 3
+    local interval = 0.1
+
+    local function sendSpawnCommand()
+        ReplicatedStorage:WaitForChild("Events"):WaitForChild("SpawnAsCustom"):FireServer(unpack(spawnArgs))
+    end
+
+    local startTime = tick()
+
+    local function spamLoop()
+        if tick() - startTime < duration then
+            sendSpawnCommand()
+            delay(interval, spamLoop)
+        end
+    end
+
+    spamLoop()
+end
+
+CstmSection:NewButton("Spawn As Custom (Male)", "", function()
+    local args = {
+        [1] = {
+            ["Option"] = "respawn"
+        }
+    }
+
+    game:GetService("ReplicatedStorage").Events.PlayerDeath:FireServer(unpack(args))
+
+    local args2 = {
+        [1] = {
+            ["EyeColor"] = "Green",
+            ["Gender"] = "Male",
+            ["CharDisplayName"] = displayName
+        }
+    }
+
+    game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("SpawnAsCustom"):FireServer(unpack(args2))
+end)
+
+CstmSection:NewButton("Spawn As Custom (Female)", "", function()
+    local args = {
+        [1] = {
+            ["Option"] = "respawn"
+        }
+    }
+
+    game:GetService("ReplicatedStorage").Events.PlayerDeath:FireServer(unpack(args))
+
+    local args2 = {
+        [1] = {
+            ["EyeColor"] = "Blue",
+            ["Gender"] = "Female",
+            ["CharDisplayName"] = displayName
+        }
+    }
+
+    game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("SpawnAsCustom"):FireServer(unpack(args2))
+end)
+
+local function resurrectAndSpawn(spawnArgs)
+    local resurrectionArgs = {
+        [1] = {
+            ["Tribrid"] = true,
+            ["Transition"] = false,
+            ["Option"] = "revive",
+            ["Approved"] = true,
+            ["Resurrect"] = true,
+        }
+    }
+    
+    ReplicatedStorage:WaitForChild("Events"):WaitForChild("PlayerDeath"):FireServer(unpack(resurrectionArgs))
+
+    wait(0.5)
+
+    spamSpawnCommand(spawnArgs)
+end
+
+CstmSection:NewButton("Change Specie As Any Character (Male)", "", function()
+    local spawnArgs = {
+        [1] = {
+            ["EyeColor"] = "Blue",
+            ["Gender"] = "Male",
+            ["CharDisplayName"] = displayName
+        }
+    }
+
+    resurrectAndSpawn(spawnArgs)
+end)
+
+CstmSection:NewButton("Change Specie As Any Character (Female)", "", function()
+    local spawnArgs = {
+        [1] = {
+            ["EyeColor"] = "Blue",
+            ["Gender"] = "Female",
+            ["CharDisplayName"] = displayName
+        }
+    }
+
+    resurrectAndSpawn(spawnArgs)
+end)
+
+CstmSection:NewButton("Change Clothes", "", function()
+    tap:Play()
+
+    local localPlayer = players.LocalPlayer
+    local playerGui = localPlayer.PlayerGui
+    local dialogueGui = playerGui.dialogueGui
+
+    local args = {
+        [1] = {
+            [1] = dialogueGui.dialogueScript,
+            [2] = "changeClothes",
+            [3] = dialogueGui
+        }
+    }
+
+    replicatedStorage.Events.guiSpecialEvent:FireServer(unpack(args))
+end)
+
+local function changeSpecie(specie)
+    return function()
+        local localPlayer = Players.LocalPlayer
+
+        if localPlayer and localPlayer:FindFirstChild("CharacterConfiguration") then
+            local charConfig = localPlayer.CharacterConfiguration
+            if charConfig:FindFirstChild("Specie") then
+                charConfig.Specie.Value = specie
+            end
+        end
+    end
+end
+
+SpecieSection:NewButton("Mortal Stats", "", changeSpecie("Mortals"))
+SpecieSection:NewButton("Werewolf Stats", "", changeSpecie("Werewolves"))
+SpecieSection:NewButton("Vampire Stats", "", changeSpecie("Vampires"))
+SpecieSection:NewButton("Witch Stats", "", changeSpecie("Witches"))
+SpecieSection:NewButton("Siphoner Witch Stats", "", changeSpecie("Siphoners"))
+SpecieSection:NewButton("Heretic Stats", "", changeSpecie("Heretics"))
+SpecieSection:NewButton("Tribrid Stats", "", changeSpecie("Tribrids"))
+SpecieSection:NewButton("Hybrid Stats", "", changeSpecie("Hybrids"))
+SpecieSection:NewButton("Original Stats", "", changeSpecie("Originals"))
+SpecieSection:NewButton("Werewitch Stats", "", changeSpecie("Werewitches"))
+SpecieSection:NewButton("Phoenix Stats", "", changeSpecie("Phoenix"))
+
+OSSection:NewButton("Become Spirit", "", function()
+    tap:Play()
+
+    local args = {
+        [1] = {
+            ["Option"] = "spirit",
+            ["Approved"] = true,
+        }
+    }
+
+    ReplicatedStorage:WaitForChild("Events"):WaitForChild("PlayerDeath"):FireServer(unpack(args))
+end)
+
+local Characters = Window:NewTab("Characters")
+local BlackSection = Characters:NewSection("Change Character")
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local player = Players.LocalPlayer
+local lastPosition = nil
+
+local function updatePosition()
+    local character = player.Character
+    if character and character:FindFirstChild("HumanoidRootPart") then
+        lastPosition = character.HumanoidRootPart.Position
+    end
+end
+
+local positionUpdateInterval = 0.5
+spawn(function()
+    while true do
+        updatePosition()
+        wait(positionUpdateInterval)
+    end
+end)
+
+local function respawnAtLastPosition()
+    local args = {
+        [1] = {
+            ["Option"] = "respawn"
+        }
+    }
+    ReplicatedStorage.Events.PlayerDeath:FireServer(unpack(args))
+
+    player.CharacterAdded:Connect(function(character)
+        local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+        humanoidRootPart.CFrame = CFrame.new(lastPosition)
+    end)
+end
+
+BlackSection:NewButton("BlackMan", "", function()
+    tap:Play()
+    respawnAtLastPosition()
+end)
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = game:GetService("Players")
+
+local function createCharacterButton(section, name, outfit)
+    section:NewButton(name, "", function()
+        tap:Play()
+        local char = {
+            CharName = name,
+            Outfit = outfit
+        }
+        local event = ReplicatedStorage.Events.SpawnAsCharacter
+        for i = 1, 2 do
+            event:FireServer(char)
+        end
+    end)
+end
+
+local function createCharacterSection(title, characterList)
+    local section = Characters:NewSection(title)
+    for _, character in ipairs(characterList) do
+        createCharacterButton(section, character[1], character[2])
+    end
+end
+
+local PassWitchesList = {
+    {"Hope Mikaelson", "Hope School Uniform"},
+    {"Qetsiyah", "Wedding Qetsiyah"},
+    {"Bonnie Bennett", "Expression Bonnie"},
+    {"Dahlia", "Classic Dahlia"},
+    {"Esther Mikaelson", "Classic Esther"},
+    {"Dark Josie Saltzman", "Alt Dark Josie"}
+}
+
+local FreeWitchesList = {
+    {"Freya Mikaelson", "Classic Freya"},
+    {"Josie Saltzman", "Classic Josie"},
+    {"Lizzie Saltzman", "Classic Lizzie"},
+    {"Kai Parker", "Classic Kai"},
+    {"Josette “Jo” Parker", "Classic Josette"},
+    {"Vincent Griffith", "Classic Vincent"},
+    {"Olivia Parker", "Classic Olivia"},
+    {"Penelope Park", "Classic Penelope"},
+    {"Alyssa Chang", "Classic Alyssa"},
+    {"Monique Deveraux", "Classic Monique"},
+    {"Luke Parker", "Classic Luke"},
+    {"Sophie Deveraux", "Classic Sophie"},
+    {"Lucy Bennett", "Classic Lucy"},
+    {"Sheila Bennett", "Classic Sheila"},
+    {"Celeste Dubois", "Classic Celeste"}
+}
+
+local EWList = {
+    {"Genevieve", "Classic Genevieve"},
+    {"Bastianna Natale", "Classic Bastianna"},
+    {"Agnes", "Classic Agnes"},
+    {"Josephine LaRue", "Classic Josephine"}
+}
+
+local GPVList = {
+    {"Valerie Tulle", "Classic Valerie"},
+    {"Oscar", "Classic Oscar"},
+    {"Malcolm", "Classic Malcolm"},
+    {"Mikael Mikaelson", "Classic Mikael"},
+    {"Elijah Mikaelson", "Classic Elijah"}
+}
+
+local VampList = {
+    {"Stefan Salvatore", "Classic Stefan"},
+    {"Damon Salvatore", "Classic Damon"},
+    {"Katherine Pierce", "Classic Katherine"},
+    {"Lorenzo “Enzo” St. John", "Classic Lorenzo"},
+    {"Sebastian", "Classic Sebastian"},
+    {"Lucien Castle", "Classic Lucien"},
+    {"Marcel Gerard", "Classic Marcel"},
+    {"Aurora De Martel", "Classic Aurora"},
+    {"Tristan De Martel", "Classic Tristan"},
+    {"Caroline Forbes", "Classic Caroline"},
+    {"Aya Al-Rashid", "Classic Aya"},
+    {"Isobel Flemming", "Classic Isobel"},
+    {"Pearl Zhu", "Pearl Casual"},
+    {"Lexi Branson", "Classic Lexi"},
+    {"Lily Salvatore", "Classic Lily"},
+    {"Rose", "Classic Rose"},
+    {"Annabelle Zhu", "Classic Annabelle"},
+    {"Nadia Petrova", "Classic Nadia"},
+    {"Vicki Donovan", "Classic Vicki"},
+    {"Josh Rosza", "Classic Josh"},
+    {"Hayley Marshall", "Classic Hayley"},
+    {"Tyler Lockwood", "Classic Tyler"},
+    {"Aiden", "Classic Aiden"},
+    {"Jed", "Classic Jed"},
+    {"Jules", "Classic Jules"}
+}
+
+local MortalList = {
+    {"Camille O'Connell", "Classic Camille"},
+    {"Jenna Sommers", "Classic Jenna"},
+    {"Carol Lockwood", "Classic Carol"},
+    {"Jeremy Gilbert", "Classic Jeremy"},
+    {"Matt Donovan", "Classic Matt"},
+    {"Liz Forbes", "Classic Liz"},
+    {"Elena Gilbert", "Classic Elena"}
+}
+
+createCharacterSection("Gamepass Witches", PassWitchesList)
+createCharacterSection("Free Witches", FreeWitchesList)
+createCharacterSection("Elder Witches", EWList)
+createCharacterSection("Gamepass Originals/Heretics", GPVList)
+createCharacterSection("Free Vampires/Werewolves/Hybrids", VampList)
+createCharacterSection("Mortals", MortalList)
+
+
+-- Teleport
+
+local TP = Window:NewTab("Teleport")
+local TeleSection = TP:NewSection("Teleport")
+
+local function teleport(location)
+    tap:Play()
+    local pl = game.Players.LocalPlayer.Character.HumanoidRootPart
+    local humanoid = game.Players.LocalPlayer.Character.Humanoid
+    humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+    wait(0.1)
+    pl.CFrame = location
+end
+
+local locations = {
+    {name = "Garage", pos = CFrame.new(-261, 86, -105)},
+    {name = "The Cure", pos = CFrame.new(801, -12, -58)},
+    {name = "The Stake Shop", pos = CFrame.new(-45, 86, -273)},
+    {name = "Hospital", pos = CFrame.new(566, 85, 472)},
+    {name = "Salvatore House", pos = CFrame.new(259, 85, -972)},
+    {name = "Harvest Ritual Area", pos = CFrame.new(-448, 86, -357)},
+    {name = "Locator Spell Area", pos = CFrame.new(-578, 51, -239)},
+    {name = "Middle of Mystic Falls", pos = CFrame.new(-7, 85, -37)},
+    {name = "Mystic Falls High School", pos = CFrame.new(172, 88, 480)}
+}
+
+for _, loc in pairs(locations) do
+    TeleSection:NewButton(loc.name, "", function()
+        teleport(loc.pos)
+    end)
+end
+
+local Player = Window:NewTab("Misc")
+local PlayerToolsSection = Player:NewSection("")
+local ScriptSection = Player:NewSection("Scripts")
+
+local infiniteJumpEnabled, noClipEnabled = false, false
+local player = game.Players.LocalPlayer
+local runService = game:GetService("RunService")
+
+local function enableInfiniteJump()
+    local humanoid = player.Character:WaitForChild("Humanoid")
+    game:GetService("UserInputService").JumpRequest:Connect(function()
+        if infiniteJumpEnabled then
+            humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+    end)
+end
+
+local function onCharacterAdded(character)
+    enableInfiniteJump()
+end
+
+player.CharacterAdded:Connect(onCharacterAdded)
+
+if player.Character then
+    onCharacterAdded(player.Character)
+end
+
+PlayerToolsSection:NewToggle("Infinite Jump", "", function(state)
+    infiniteJumpEnabled = state
+end)
+
+PlayerToolsSection:NewToggle("NoClip", "", function(state)
+    noClipEnabled = state
+    local character = player.Character or player.CharacterAdded:Wait()
+
+    if noClipEnabled then
+        runService.Stepped:Connect(function()
+            if noClipEnabled then
+                for _, part in pairs(character:GetDescendants()) do
+                    if part:IsA("BasePart") and part.CanCollide then
+                        part.CanCollide = false
+                    end
+                end
+            end
+        end)
+    else
+        for _, part in pairs(character:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = true
+            end
+        end
+    end
+end)
+
+local spectating, targetPlayerName = false, nil
+local camera, Players, LocalPlayer = workspace.CurrentCamera, game:GetService("Players"), game.Players.LocalPlayer
+
+PlayerToolsSection:NewTextBox("Spy Player", "", function(name)
+    targetPlayerName = name
+end)
+
+PlayerToolsSection:NewToggle("Spy On/Off", "", function(state)
+    spectating = state
+    if not spectating then
+        camera.CameraSubject = LocalPlayer.Character
+    end
+end)
+
+local function findPlayerByPartialName(partialName)
+    partialName = string.lower(partialName)
+    for _, player in pairs(Players:GetPlayers()) do
+        if string.find(string.lower(player.Name), partialName) then
+            return player
+        end
+    end
+    return nil
+end
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    if spectating and targetPlayerName then
+        local targetPlayer = findPlayerByPartialName(targetPlayerName)
+        if targetPlayer and targetPlayer.Character then
+            camera.CameraSubject = targetPlayer.Character
+        end
+    end
+end)
+
+PlayerToolsSection:NewToggle("Delete Main Menu", "", function(state)
+    deleteMenuEnabled = state
+    if deleteMenuEnabled then
+        spawn(function()
+            while deleteMenuEnabled do
+                local menu = player:FindFirstChild("PlayerGui"):FindFirstChild("Menu")
+                if menu then
+                    menu:Destroy()
+                end
+                task.wait()
+            end
+        end)
+    end
+end)
+
+local player = game.Players.LocalPlayer
+local camera = workspace.CurrentCamera
+local runService = game:GetService("RunService")
+local starterGui = game:GetService("StarterGui")
+local renderSteppedConnection = nil
+local cameraLocked = false
+local uiEnabled = false
+local targetPlayerName = nil
+local spectating = false
+
+local function findPlayerByPartialName(partialName)
+    partialName = string.lower(partialName)
+    for _, player in pairs(game.Players:GetPlayers()) do
+        if string.find(string.lower(player.Name), partialName) then
+            return player
+        end
+    end
+    return nil
+end
+
+game:GetService("RunService").RenderStepped:Connect(function()
+    if spectating and targetPlayerName then
+        local targetPlayer = findPlayerByPartialName(targetPlayerName)
+        if targetPlayer and targetPlayer.Character then
+            camera.CameraSubject = targetPlayer.Character
+        end
+    end
+end)
+
+local function fixCamera()
+    camera.CameraType = Enum.CameraType.Custom
+    if player.Character and player.Character:FindFirstChild("Humanoid") then
+        camera.CameraSubject = player.Character:WaitForChild("Humanoid")
+    end
+end
+
+local function unlockCamera()
+    camera.CameraType = Enum.CameraType.Custom
+    if player.Character and player.Character:FindFirstChild("Humanoid") then
+        camera.CameraSubject = player.Character:WaitForChild("Humanoid")
+    end
+end
+
+local function startCameraFixing()
+    if renderSteppedConnection then
+        renderSteppedConnection:Disconnect()
+    end
+    renderSteppedConnection = runService.RenderStepped:Connect(function()
+        if player.Character and player.Character:FindFirstChild("Humanoid") then
+            fixCamera()
+        end
+    end)
+end
+
+local function onCharacterAdded(character)
+    character:WaitForChild("Humanoid")
+    if cameraLocked then
+        fixCamera()
+        startCameraFixing()
+    end
+end
+
+local function ensureUIElementsEnabled()
+    while uiEnabled do
+        starterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, true)
+        starterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, true)
+        starterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, true)
+        starterGui:SetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu, true)
+        wait(0.1)
+    end
+end
+
+local function toggleUIElements(state)
+    uiEnabled = state
+
+    if uiEnabled then
+        spawn(ensureUIElementsEnabled)
+    else
+        starterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Chat, false)
+        starterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, false)
+        starterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, false)
+        starterGui:SetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu, false)
+    end
+end
+
+PlayerToolsSection:NewToggle("Fix Camera/Anti Silencio", "", function(state)
+    cameraLocked = state
+    uiEnabled = state
+
+    if cameraLocked then
+        fixCamera()
+        startCameraFixing()
+        player.CharacterAdded:Connect(onCharacterAdded)
+    else
+        if renderSteppedConnection then
+            renderSteppedConnection:Disconnect()
+            renderSteppedConnection = nil
+        end
+        unlockCamera()
+    end
+
+    toggleUIElements(uiEnabled)
+end)
+
+if player.Character then
+    onCharacterAdded(player.Character)
+end
+
+
+PlayerToolsSection:NewButton("Anti Annoying", "", function()
+    antiAnnoyingEnabled = true
+    spawn(function()
+        while antiAnnoyingEnabled do
+            for _, element in pairs({"ForcedWolf", "Transformed"}) do
+                local obj = player:FindFirstChild(element)
+                if obj then
+                    obj:Destroy()
+                end
+            end
+            local tribridStorm = game:GetService("ReplicatedStorage"):FindFirstChild("TRIBRIDSTORM")
+            if tribridStorm then
+                tribridStorm:Destroy()
+            end
+            if Lighting.MagicColor then
+                Lighting.MagicColor = nil
+            end
+            if Lighting.MagicBlur then
+                Lighting.MagicBlur = nil
+            end
+            if Lighting.InsanityEffect then
+                Lighting.InsanityEffect = nil
+            end
+            if Lighting.ScreamColor then
+                Lighting.ScreamColor = nil
+            end
+            break
+        end
+    end)
+end)
+
+PlayerToolsSection:NewButton("Anti Ragdoll", "", function()
+    local ragdollEvent = ReplicatedStorage:FindFirstChild("RemoteEvents"):FindFirstChild("Ragdoll")
+    if ragdollEvent then ragdollEvent:Destroy() end
+end)
+
+PlayerToolsSection:NewButton("No Werewolf Form", "", function()
+    local replicatedStorage = game:GetService("ReplicatedStorage")
+    local werewolfEvent = replicatedStorage:FindFirstChild("Events") and replicatedStorage.Events:FindFirstChild("CharacterSystems") and replicatedStorage.Events.CharacterSystems:FindFirstChild("CheckWerewolf")
+
+    if werewolfEvent then
+        werewolfEvent:Destroy()
+    end
+end)
+
+ScriptSection:NewButton("Infinite Yield", "", function()
+    tap:Play()
+
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+end)
+
+ScriptSection:NewButton("Keyboard Script", "", function()
+    tap:Play()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/advxzivhsjjdhxhsidifvsh/mobkeyboard/main/main.txt", true))()
+end)
+
+ScriptSection:NewButton("NTM Script", "", function()
+    tap:Play()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/lovret/idk/b97d4b52234974b00e0992c975755e74a1245e50/TVL', true))()
+end)
+
+ScriptSection:NewButton("Explorer/DEX", "", function()
+    tap:Play()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/yofriendfromschool1/Sky-Hub-Backup/main/Dex/Mobile%20Dex%20Explorer.txt"))()
+end)
+
+ScriptSection:NewButton("Adonis AntiCheat", "", function()
+    tap:Play()
+
+local getinfo = getinfo or debug.getinfo
+local DEBUG = false
+local Hooked = {}
+
+local Detected, Kill
+
+setthreadidentity(2)
+
+for i, v in getgc(true) do
+    if typeof(v) == "table" then
+        local DetectFunc = rawget(v, "Detected")
+        local KillFunc = rawget(v, "Kill")
+    
+        if typeof(DetectFunc) == "function" and not Detected then
+            Detected = DetectFunc
+            
+            local Old; Old = hookfunction(Detected, function(Action, Info, NoCrash)
+                if Action ~= "_" then
+                    if DEBUG then
+                        warn(`Adonis AntiCheat flagged\nMethod: {Action}\nInfo: {Info}`)
+                    end
+                end
+                
+                return true
+            end)
+
+            table.insert(Hooked, Detected)
+        end
+
+        if rawget(v, "Variables") and rawget(v, "Process") and typeof(KillFunc) == "function" and not Kill then
+            Kill = KillFunc
+            local Old; Old = hookfunction(Kill, function(Info)
+                if DEBUG then
+                    warn(`Adonis AntiCheat tried to kill (fallback): {Info}`)
+                end
+            end)
+
+            table.insert(Hooked, Kill)
+        end
+    end
+end
+
+local Old; Old = hookfunction(getrenv().debug.info, newcclosure(function(...)
+    local LevelOrFunc, Info = ...
+
+    if Detected and LevelOrFunc == Detected then
+        if DEBUG then
+            warn(`zins | adonis bypassed`)
+        end
+
+        return coroutine.yield(coroutine.running())
+    end
+    
+    return Old(...)
+end))
+
+setthreadidentity(7)
+end)
+
+ScriptSection:NewButton("FPS Unlocker", "", function()
+    tap:Play()
+
+loadstring(game:HttpGet("https://rawscripts.net/raw/Universal-Script-FPS-booster-Universal-18966"))()
+end)
+
+ScriptSection:NewButton("Click Fling", "", function()
+    tap:Play()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/0Ben1/fe/main/obf_5wpM7bBcOPspmX7lQ3m75SrYNWqxZ858ai3tJdEAId6jSI05IOUB224FQ0VSAswH.lua.txt', true))()
+end)
+
+ScriptSection:NewButton("Invisfling", "", function()
+    tap:Play()
+
+    -- Ensure that `speaker` and `RunService` are defined properly
+    local speaker = game.Players.LocalPlayer
+    local RunService = game:GetService("RunService")
+
+    -- Get the root part (assuming it's the HumanoidRootPart)
+    local function getRoot(character)
+        return character:FindFirstChild("HumanoidRootPart") or character:FindFirstChild("Torso")
+    end
+
+    local ch = speaker.Character
+    local prt = Instance.new("Model")
+    prt.Parent = speaker.Character
+
+    local z1 = Instance.new("Part")
+    z1.Name = "Torso"
+    z1.CanCollide = false
+    z1.Anchored = true
+    z1.Parent = prt
+
+    local z2 = Instance.new("Part")
+    z2.Name = "Head"
+    z2.Parent = prt
+    z2.Anchored = true
+    z2.CanCollide = false
+
+    local z3 = Instance.new("Humanoid")
+    z3.Name = "Humanoid"
+    z3.Parent = prt
+
+    z1.Position = Vector3.new(0, 9999, 0)
+    speaker.Character = prt
+
+    wait(3)
+    speaker.Character = ch
+
+    wait(3)
+    local Hum = Instance.new("Humanoid")
+    z2:Clone()
+    Hum.Parent = speaker.Character
+
+    local root = getRoot(speaker.Character)
+    if root then
+        for i, v in pairs(speaker.Character:GetChildren()) do
+            if v ~= root and v.Name ~= "Humanoid" then
+                v:Destroy()
+            end
+        end
+
+        root.Transparency = 0
+        root.Color = Color3.new(1, 1, 1)
+
+        -- Connect the Stepped event to keep the player from colliding
+        local invisflingStepped
+        invisflingStepped = RunService.Stepped:Connect(function()
+            if speaker.Character and getRoot(speaker.Character) then
+                getRoot(speaker.Character).CanCollide = false
+            else
+                invisflingStepped:Disconnect()
+            end
+        end)
+
+        -- Assume `sFLY()` is defined elsewhere to enable flight
+        if typeof(sFLY) == "function" then
+            sFLY()
+        else
+            warn("sFLY function is missing!")
+        end
+
+        workspace.CurrentCamera.CameraSubject = root
+
+        -- Apply the BodyThrust force
+        local bambam = Instance.new("BodyThrust")
+        bambam.Parent = root
+        bambam.Force = Vector3.new(99999, 99999 * 10, 99999)
+        bambam.Location = root.Position
+    else
+        warn("Root part not found!")
+    end
+end)
+
+local TeleportService = game:GetService("TeleportService")
+local placeId = 7191149331 -- ID of the target game server
+
+ScriptSection:NewButton("TP To New Orleans Map", "", function()
+    -- Play a tap sound
+    tap:Play()
+    
+    -- Teleport the player to the specified server
+    local player = game.Players.LocalPlayer
+    TeleportService:Teleport(placeId, player)
+end)
+
+local TVL = Window:NewTab("TVL2 Stuffs")
+local SkySection = TVL:NewSection("Change Graphics")
+local AnimSection = TVL:NewSection("TVL2 Animations")
+
+SkySection:NewButton("Remove TVL1 Skybox", "", function()
+    tap:Play()
+
+    local lighting = game:GetService("Lighting")
+
+    -- Lista de efeitos e instâncias para remover
+    local effectsToRemove = {
+        "Blur",
+        "Peaceful Morning Sky",
+        "ColorCorrection",
+        "SunRays",
+        "Bloom",
+    }
+
+    -- Função para remover os efeitos e instâncias
+    local function removeEffects()
+        for _, effectName in ipairs(effectsToRemove) do
+            local effect = lighting:FindFirstChild(effectName)
+            if effect then
+                effect:Destroy()
+                print(effectName .. " removed.")
+            end
+        end
+    end
+
+    -- Loop para garantir que os efeitos sejam continuamente removidos
+    while true do
+        removeEffects()
+        wait(1)  -- Ajuste o tempo de espera conforme necessário
+    end
+end)
+
+SkySection:NewButton("Add TVL2 SkyBox", "", function()
+    tap:Play()
+
+    local lighting = game:GetService("Lighting")
+
+    -- Função para configurar a SkyBox
+    local function configureSky(sky)
+        sky.SkyboxBk = "http://www.roblox.com/asset/?id=150335574"
+        sky.SkyboxDn = "http://www.roblox.com/asset/?id=150335585"
+        sky.SkyboxFt = "http://www.roblox.com/asset/?id=150335628"
+        sky.SkyboxLf = "http://www.roblox.com/asset/?id=150335620"
+        sky.SkyboxRt = "http://www.roblox.com/asset/?id=150335610"
+        sky.SkyboxUp = "http://www.roblox.com/asset/?id=150335642"
+        sky.StarCount = 1334
+        sky.MoonTextureId = "rbxassetid://1345054856"
+        sky.MoonAngularSize = 60
+        sky.SunTextureId = "rbxassetid://1345009717"
+        sky.SunAngularSize = 12
+    end
+
+    -- Função para garantir que a SkyBox esteja presente e configurada
+    local function ensureSky()
+        local sky = lighting:FindFirstChildOfClass("Sky")
+        if not sky then
+            sky = Instance.new("Sky")
+            sky.Parent = lighting
+            print("SkyBox created.")
+        end
+        configureSky(sky)
+        print("SkyBox configured.")
+    end
+
+    -- Loop para garantir que a SkyBox esteja sempre presente e configurada
+    while true do
+        ensureSky()
+        wait(10)  -- Ajuste o tempo de espera conforme necessário
+    end
+end)
+
+SkySection:NewButton("TVL2 Lighting", "", function()
+    tap:Play()
+
+-- Definir a tabela de configurações para propriedades básicas de iluminação
+local settings = {
+    Ambient = Color3.fromRGB(93, 93, 93),
+    Brightness = 1,
+    ColorShift_Bottom = Color3.fromRGB(0, 0, 0),
+    ColorShift_Top = Color3.fromRGB(216, 180, 116),
+    EnvironmentDiffuseScale = 0,
+    GlobalShadows = true,
+    OutdoorAmbient = Color3.fromRGB(118, 146, 189),
+    ShadowSoftness = 0.2,
+    GeographicLatitude = 23.5
+}
+
+local function applySettings()
+    local lighting = game:GetService("Lighting")
+    
+    -- Aplicar configurações ao lighting
+    for setting, value in pairs(settings) do
+        lighting[setting] = value
+    end
+end
+
+-- Loop para aplicar configurações a cada 0.1 segundos
+while true do
+    applySettings()
+    wait(0.1)
+end
+end)
+
+
+SkySection:NewButton(" TVL2 Atmosphere", "", function()
+    tap:Play()
+
+local lighting = game:GetService("Lighting")
+
+-- Função para configurar a atmosfera
+local function configureAtmosphere(atmosphere)
+    atmosphere.Density = 0.4
+    atmosphere.Offset = 0
+    atmosphere.Color = Color3.fromRGB(16, 18, 34)
+    atmosphere.Decay = Color3.fromRGB(78, 88, 92)
+    atmosphere.Glare = 0.16
+    atmosphere.Haze = 0
+end
+
+-- Função para garantir que FoggyAtmosphere esteja presente e configurado
+local function ensureFoggyAtmosphere()
+    local atmosphere = lighting:FindFirstChild("FoggyAtmosphere")
+    if not atmosphere then
+        atmosphere = Instance.new("Atmosphere")
+        atmosphere.Name = "FoggyAtmosphere"
+        atmosphere.Parent = lighting
+        print("FoggyAtmosphere created.")
+    end
+    configureAtmosphere(atmosphere)
+    print("FoggyAtmosphere configured.")
+end
+
+-- Loop para garantir que o FoggyAtmosphere esteja sempre presente e configurado
+while true do
+    ensureFoggyAtmosphere()
+    wait(10)  -- Ajuste o tempo de espera conforme necessário
+end
+end)
+
+SkySection:NewButton("TVL2 SunRays", "", function()
+    tap:Play()
+
+    local lighting = game:GetService("Lighting")
+
+    -- Função para configurar o SunRaysEffect
+    local function configureSunRays(sunRays)
+        sunRays.Enabled = true
+        sunRays.Intensity = 0.2
+        sunRays.Spread = 0.091
+    end
+
+    -- Função para garantir que o SunRaysEffect esteja presente e configurado
+    local function ensureSunRays()
+        local sunRays = lighting:FindFirstChild("Sun")
+        if not sunRays then
+            sunRays = Instance.new("SunRaysEffect")
+            sunRays.Name = "Sun"
+            sunRays.Parent = lighting
+            print("SunRaysEffect created and named 'Sun'.")
+        end
+        configureSunRays(sunRays)
+        print("SunRaysEffect 'Sun' configured.")
+    end
+
+    -- Configurar continuamente o SunRaysEffect
+    while true do
+        ensureSunRays()
+        wait(1)  -- Ajuste o tempo de espera conforme necessário
+    end
+end)
+
+SkySection:NewButton("TVL2 ColorCorrection", "", function()
+    tap:Play()
+
+    local lighting = game:GetService("Lighting")
+
+    -- Função para configurar o ColorCorrectionEffect
+    local function configureColorCorrection(colorCorrection)
+        colorCorrection.Brightness = 0.05
+        colorCorrection.Contrast = 0.1
+        colorCorrection.Saturation = 0.1
+        colorCorrection.TintColor = Color3.fromRGB(255, 255, 255)
+    end
+
+    -- Função para garantir que o ColorCorrectionEffect esteja presente e configurado
+    local function ensureColorCorrection()
+        local colorCorrection = lighting:FindFirstChild("Color")
+        if not colorCorrection then
+            colorCorrection = Instance.new("ColorCorrectionEffect")
+            colorCorrection.Name = "Color"
+            colorCorrection.Parent = lighting
+            print("ColorCorrectionEffect created and named 'Color'.")
+        end
+        configureColorCorrection(colorCorrection)
+        print("ColorCorrectionEffect 'Color' configured.")
+    end
+
+    -- Configurar continuamente o ColorCorrectionEffect
+    while true do
+        ensureColorCorrection()
+        wait(1)  -- Ajuste o tempo de espera conforme necessário
+    end
+end)
+
+SkySection:NewButton("TVL2 DepthOfField", "", function()
+    tap:Play()
+
+    local lighting = game:GetService("Lighting")
+
+    -- Função para configurar o DepthOfFieldEffect
+    local function configureDepthOfField(depthOfField)
+        depthOfField.FarIntensity = 0.05
+        depthOfField.FocusDistance = 0.05
+        depthOfField.InFocusRadius = 30
+        depthOfField.NearIntensity = 0.75
+    end
+
+    -- Função para garantir que o DepthOfFieldEffect esteja presente e configurado
+    local function ensureDepthOfField()
+        local depthOfField = lighting:FindFirstChildOfClass("DepthOfFieldEffect")
+        if not depthOfField then
+            depthOfField = Instance.new("DepthOfFieldEffect")
+            depthOfField.Parent = lighting
+            print("DepthOfFieldEffect created.")
+        end
+        configureDepthOfField(depthOfField)
+        print("DepthOfFieldEffect configured.")
+    end
+
+    -- Loop para garantir que o DepthOfFieldEffect esteja sempre presente e configurado
+    while true do
+        ensureDepthOfField()
+        wait(10)  -- Ajuste o tempo de espera conforme necessário
+    end
+end)
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local tap = Instance.new("Sound")
+
+local toggledAnimations = {
+    ["TVL2Base"] = false,
+    ["TVL2Hope"] = false,
+    ["TVL2DarkJosie"] = false,
+    ["TVL2Silas"] = false,
+    ["TVL2Amara"] = false
+}
+
+local function setIdleAnimation(id)
+    tap:Play()
+    local character = workspace:WaitForChild(LocalPlayer.Name)
+    character:WaitForChild("Animate").idle:WaitForChild("Animation1").AnimationId = id
+end
+
+-- Gender-based default animations
+local maleAnim = "rbxassetid://5820040640"
+local femaleAnim = "rbxassetid://5532734372"
+
+local function getGenderAnimation()
+    local gender = LocalPlayer:WaitForChild("CharacterConfiguration").Gender
+    return gender == "Male" and maleAnim or femaleAnim
+end
+
+-- Function to reapply animations after character respawn
+local function reapplyAnimations()
+    if toggledAnimations["TVL2Base"] then
+        setIdleAnimation("rbxassetid://12821182159")
+    elseif toggledAnimations["TVL2Hope"] then
+        setIdleAnimation("rbxassetid://18321595536")
+    elseif toggledAnimations["TVL2DarkJosie"] then
+        setIdleAnimation("rbxassetid://18321812342")
+    elseif toggledAnimations["TVL2Silas"] then
+        setIdleAnimation("rbxassetid://18298109865")
+    elseif toggledAnimations["TVL2Amara"] then
+        setIdleAnimation("rbxassetid://18318581876")
+    else
+        setIdleAnimation(getGenderAnimation())
+    end
+end
+
+-- Connect to CharacterAdded to reapply animations upon respawn
+LocalPlayer.CharacterAdded:Connect(function()
+    wait(1) -- Short delay to ensure the character is fully loaded
+    reapplyAnimations()
+end)
+
+-- TVL2 Base Animation with Gender Check
+AnimSection:NewToggle("TVL2 Base Animation", "", function(state)
+    toggledAnimations["TVL2Base"] = state
+    if state then
+        setIdleAnimation("rbxassetid://12821182159")
+    else
+        setIdleAnimation(getGenderAnimation())
+    end
+end)
+
+-- TVL2 Hope Animation with Gender Check
+AnimSection:NewToggle("TVL2 Hope Animations", "", function(state)
+    toggledAnimations["TVL2Hope"] = state
+    if state then
+        setIdleAnimation("rbxassetid://18321595536")
+    else
+        setIdleAnimation(getGenderAnimation())
+    end
+end)
+
+-- TVL2 Dark Josie Animation with Gender Check
+AnimSection:NewToggle("TVL2 Dark Josie Animations", "", function(state)
+    toggledAnimations["TVL2DarkJosie"] = state
+    if state then
+        setIdleAnimation("rbxassetid://18321812342")
+    else
+        setIdleAnimation(getGenderAnimation())
+    end
+end)
+
+-- TVL2 Silas Animation with Gender Check
+AnimSection:NewToggle("TVL2 Silas Animations", "", function(state)
+    toggledAnimations["TVL2Silas"] = state
+    if state then
+        setIdleAnimation("rbxassetid://18298109865")
+    else
+        setIdleAnimation(getGenderAnimation())
+    end
+end)
+
+-- TVL2 Amara Animation with Gender Check
+AnimSection:NewToggle("TVL2 Amara Animations", "", function(state)
+    toggledAnimations["TVL2Amara"] = state
+    if state then
+        setIdleAnimation("rbxassetid://18318581876")
+    else
+        setIdleAnimation(getGenderAnimation())
+    end
+end)
+
+-- TVL2 Esther Mikaelson with Gender Check
+AnimSection:NewToggle("TVL2 Esther Mikaelson", "", function(state)
+  toggledAnimations["TVL2Esther"] = state
+  if state then
+  setIdleAnimation("rbxassetid://7258995056")
+else
+        setIdleAnimation(getGenderAnimation())
+    end
+end)
+
+
+-- UI section
+local UI = Window:NewTab("Open/Close UI")
+local UISection = UI:NewSection("Open/Close")
+
+UISection:NewKeybind("Open/Close UI", "KeybindInfo", Enum.KeyCode.Backspace, function()
+    Library:ToggleUI()
+end)
