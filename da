@@ -1,0 +1,39 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+	local Window = Rayfield:CreateWindow({
+	   Name = "tvl script",
+	   LoadingTitle = "enzo tvl script lol",
+	   LoadingSubtitle = "by enzo",
+	   Theme = "Default", -- DarkBlue, Green, Light, Default - more coming soon!
+		})
+	
+	
+	local Tab = Window:CreateTab("Character", 4483362458)
+		local Section = Tab:CreateSection("Players")
+		local InfiniteMagicToggle = true
+		local Toggle = Tab:CreateToggle({
+			Name = "Infinite Magic",
+			CurrentValue = false,
+			Flag = "Toggle1", 
+			Callback = function(Value)
+				if Value then
+					InfiniteMagicToggle = true
+					while InfiniteMagicToggle do
+						local ReplicatedStorage = game:GetService("ReplicatedStorage")
+							local args = {
+					[1] = {
+						["Magic"] = 800,
+					}
+				}
+	                        ReplicatedStorage:WaitForChild("Events"):WaitForChild("CharacterSystems"):WaitForChild("CharacterStats"):FireServer(unpack(args))
+	                        ReplicatedStorage:WaitForChild("Events"):WaitForChild("CharacterSystems"):WaitForChild("CharacterStats"):FireServer(unpack(args))
+	                        ReplicatedStorage:WaitForChild("Events"):WaitForChild("CharacterSystems"):WaitForChild("CharacterStats"):FireServer(unpack(args))
+	                        ReplicatedStorage:WaitForChild("Events"):WaitForChild("CharacterSystems"):WaitForChild("CharacterStats"):FireServer(unpack(args))
+				ReplicatedStorage:WaitForChild("Events"):WaitForChild("CharacterSystems"):WaitForChild("CharacterStats"):FireServer(unpack(args))
+				task.wait(0.001)
+					end
+				else
+					InfiniteMagicToggle = false
+				end
+			end,
+		})
+	
